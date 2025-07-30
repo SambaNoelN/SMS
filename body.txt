@@ -1,0 +1,22 @@
+<form action="" method="post">
+<fieldset><legend style="color:#0000FF"><strong>Enter your Username and Password</strong></legend>
+
+<?php if(isset($bad)) echo $bad; ?>
+
+<p align="center">
+<img src="picture/login.gif" alt=""/>
+</p>
+<p align="center">u
+                   	  <label for="id"><strong>User Name</strong></label>
+                      <input id="login" name="login" type="text" required />
+                      <br/>
+                      <label for="mdp"><strong>Password &nbsp;</strong></label>
+                      <input id="pwd" name="pwd" type="password" required /><br/> 
+                  
+					  
+					   <h7 align="center"><a href="registration.php" id="" >Create User Account</a><br/></h7>
+					  
+                     <p><p align="center">
+					  <input type="submit" value="Login"></p>
+                    </form></p></p>
+					

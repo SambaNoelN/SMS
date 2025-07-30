@@ -1,0 +1,99 @@
+Imports MySql.Data.MySqlClient
+Public Class FormEdituser
+    Dim constr As String = "server=localhost; port=3306; Database=loginpat; Uid=root; Pwd=;"
+    Dim conn As New MySqlConnection(constr)
+
+    Dim datasuser As New DataSet
+    Dim sqlusers As String = "select * from accounts"
+    Private Sub FormAdduser_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim xid As Integer
+        xid = Val(Formusers.txtID.Text)
+
+        If conn.State = ConnectionState.Closed Then
+            conn.Open()
+        End If
+        datasuser.Clear()
+        sqlusers = "select * from accounts where id =" & xid & ""
+
+        Dim dataadapteraccounts As New MySqlDataAdapter(sqlusers, conn)
+        dataadapteraccounts.Fill(datasuser, "accounts")
+
+        conn.Close()
+        txtuser.DataBindings.Clear()
+        txtname.DataBindings.Clear()
+        txtpass.DataBindings.Clear()
+        chbadmin.DataBindings.Clear()
+        chbex1.DataBindings.Clear()
+        chbex2.DataBindings.Clear()
+        chbusers.DataBindings.Clear()
+
+        txtuser.DataBindings.Add("Text", datasuser, "accounts.name")
+        txtname.DataBindings.Add("Text", datasuser, "accounts.username")
+        txtpass.DataBindings.Add("Text", datasuser, "accounts.password")
+        chbusers.DataBindings.Add(New Binding("Checked", datasuser, "accounts.manage_accounts"))
+        chbex1.DataBindings.Add(New Binding("Checked", datasuser, "accounts.manage_example1"))
+        chbex2.DataBindings.Add(New Binding("Checked", datasuser, "accounts.manage_example2"))
+        chbadmin.DataBindings.Add(New Binding("Checked", datasuser, "accounts.admin"))
+    End Sub
+    Public Sub editusers()
+        Try
+            If conn.State = ConnectionState.Closed Then
+                conn.Open()
+
+            End If
+
+            Dim IDM As Integer = Val(Formusers.txtID.Text)
+
+
+            Dim cmd As New MySqlCommand
+            cmd.Connection = conn
+            cmd.CommandType = CommandType.Text
+            cmd.CommandText = "UPDATE accounts set name=@name, username=@username, password=@password,manage_accounts=@manage_accounts,manage_example1=@manage_example1,manage_example2=@manage_example1,admin=@admin where id= " & IDM & ""
+
+            cmd.Parameters.AddWithValue("@name", txtuser.Text.Trim)
+            cmd.Parameters.AddWithValue("@username", txtname.Text.Trim)
+            cmd.Parameters.AddWithValue("@password", txtpass.Text.Trim)
+            cmd.Parameters.AddWithValue("@manage_accounts", chbusers.Checked)
+            cmd.Parameters.AddWithValue("@manage_example1", chbex1.Checked)
+            cmd.Parameters.AddWithValue("@manage_example2", chbex2.Checked)
+            cmd.Parameters.AddWithValue("@admin", chbadmin.Checked)
+
+            cmd.ExecuteNonQuery()
+            conn.Close()
+
+            Formusers.loadaccounts()
+            Me.Close()
+            
+        Catch ex As Exception
+            MsgBox("Error !: " + ex.Message)
+
+        End Try
+    End Sub
+ 
+
+    Private Sub cmdrole_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmdrole.SelectedIndexChanged
+        If cmdrole.Text = "Admin" Then
+            chbadmin.Checked = True
+            chbusers.Checked = True
+            chbex1.Checked = True
+            chbex2.Checked = True
+        ElseIf cmdrole.Text = "User" Then
+            chbadmin.Checked = False
+            chbusers.Checked = False
+            chbex1.Checked = False
+            chbex2.Checked = False
+        End If
+    End Sub
+
+    Private Sub btnadd_Click(sender As Object, e As EventArgs) Handles btnadd.Click
+        editusers()
+    End Sub
+
+    Private Sub chbadmin_CheckedChanged(sender As Object, e As EventArgs) Handles chbadmin.CheckedChanged
+        If chbadmin.Checked = True Then
+            cmdrole.SelectedIndex = 0
+        Else
+            cmdrole.SelectedIndex = 1
+        End If
+    End Sub
+End Class

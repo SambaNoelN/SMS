@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Advanced Teacher's Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f8; margin: 0; }
+        .sidebar {
+            width: 220px; background: #2c3e50; color: #fff; height: 100vh; position: fixed; top: 0; left: 0;
+            display: flex; flex-direction: column; padding-top: 30px;
+        }
+        .sidebar h2 { text-align: center; margin-bottom: 30px; }
+        .sidebar a {
+            color: #fff; text-decoration: none; padding: 15px 30px; display: block;
+            transition: background 0.2s;
+        }
+        .sidebar a:hover { background: #34495e; }
+        .main {
+            margin-left: 220px; padding: 30px;
+        }
+        .dashboard-header {
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .dashboard-header h1 { margin: 0; }
+        .profile {
+            display: flex; align-items: center;
+        }
+        .profile img {
+            width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;
+        }
+        .cards {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px;
+        }
+        .card {
+            background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+        .card h3 { margin-top: 0; }
+        .table-section {
+            margin-top: 40px;
+        }
+        table {
+            width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden;
+        }
+        th, td {
+            padding: 12px; text-align: left; border-bottom: 1px solid #eee;
+        }
+        th { background: #ecf0f1; }
+        .actions button {
+            background: #2980b9; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;
+            margin-right: 5px;
+        }
+        .actions button:last-child { background: #e74c3c; }
+        @media (max-width: 900px) {
+            .cards { grid-template-columns: 1fr; }
+            .sidebar { width: 100px; }
+            .main { margin-left: 100px; }
+            .sidebar a, .sidebar h2 { font-size: 14px; padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Teacher</h2>
+        <a href="#">Dashboard</a>
+        <a href="#">My Classes</a>
+        <a href="#">Assignments</a>
+        <a href="#">Attendance</a>
+        <a href="#">Messages</a>
+        <a href="#">Settings</a>
+        <a href="#">Logout</a>
+    </div>
+    <div class="main">
+        <div class="dashboard-header">
+            <h1>Welcome, Ms. Smith</h1>
+            <div class="profile">
+                <img src="https://i.pravatar.cc/40?img=5" alt="Profile">
+                <span>Ms. Smith</span>
+            </div>
+        </div>
+        <div class="cards">
+            <div class="card">
+                <h3>Today's Classes</h3>
+                <p>3 Scheduled</p>
+                <ul>
+                    <li>Math - 9:00 AM</li>
+                    <li>Science - 11:00 AM</li>
+                    <li>English - 2:00 PM</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Pending Assignments</h3>
+                <p>5 to Review</p>
+                <ul>
+                    <li>Math Homework</li>
+                    <li>Science Project</li>
+                    <li>English Essay</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Attendance</h3>
+                <p>95% Present Today</p>
+                <progress value="95" max="100" style="width:100%;"></progress>
+            </div>
+        </div>
+        <div class="table-section">
+            <h2>Recent Student Submissions</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Assignment</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>John Doe</td>
+                        <td>Math Homework</td>
+                        <td>2024-06-10</td>
+                        <td>Submitted</td>
+                        <td class="actions">
+                            <button>Review</button>
+                            <button>Grade</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Jane Smith</td>
+                        <td>Science Project</td>
+                        <td>2024-06-09</td>
+                        <td>Submitted</td>
+                        <td class="actions">
+                            <button>Review</button>
+                            <button>Grade</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mike Lee</td>
+                        <td>English Essay</td>
+                        <td>2024-06-08</td>
+                        <td>Late</td>
+                        <td class="actions">
+                            <button>Review</button>
+                            <button>Grade</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

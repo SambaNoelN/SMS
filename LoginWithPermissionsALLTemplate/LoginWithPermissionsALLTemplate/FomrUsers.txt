@@ -1,0 +1,121 @@
+Imports MySql.Data.MySqlClient
+Public Class Formusers
+    Dim constr As String = "server=localhost; port=3306; Database=loginpat; Uid=root; Pwd=;"
+    Dim conn As New MySqlConnection(constr)
+    Dim datasetcount As New DataSet
+    Dim dataadapter As MySqlDataAdapter
+
+    Public Sub FillDGV()
+        dataadapter = New MySqlDataAdapter("select * from accounts", conn)
+        datasetcount.Clear()
+        dataadapter.Fill(datasetcount, "accounts")
+
+        DataGridView1.DataSource = datasetcount
+        DataGridView1.DataMember = "accounts"
+        DataGridView1.Refresh()
+
+    End Sub
+    Public Sub loadaccounts()
+
+        If conn.State = ConnectionState.Closed Then
+            conn.Open()
+        End If
+        Call FillDGV()
+        conn.Close()
+
+        txtID.DataBindings.Clear()
+        txtID.DataBindings.Add("Text", datasetcount, "accounts.id")
+
+        DataGridView1.Columns(0).Visible = False
+        DataGridView1.Columns(1).HeaderText = "Name"
+        DataGridView1.Columns(2).HeaderText = "Username"
+        DataGridView1.Columns(3).HeaderText = "password"
+        DataGridView1.Columns(4).HeaderText = "M_A"
+        DataGridView1.Columns(5).HeaderText = "M_E1"
+        DataGridView1.Columns(6).HeaderText = "M_E2"
+        DataGridView1.Columns(7).HeaderText = "Admin"
+
+        DataGridView1.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+
+        Dim columnNumber As Integer = 0
+        DataGridView1.Sort(DataGridView1.Columns(columnNumber), System.ComponentModel.ListSortDirection.Ascending)
+
+
+        ComboBox1.Items.Add("Name")
+        ComboBox1.Items.Add("Username")
+
+        ComboBox2.Items.Add("name")
+        ComboBox2.Items.Add("username")
+
+
+        ComboBox1.SelectedIndex = 0
+
+        txtID.Visible = False
+        ComboBox2.Visible = False
+    End Sub
+
+    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
+        ComboBox2.SelectedIndex = ComboBox1.SelectedIndex
+    End Sub
+
+    Private Sub AddUsersToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AddUsersToolStripMenuItem.Click
+        FormAdduser.ShowDialog()
+    End Sub
+
+    Private Sub Formusers_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        loadaccounts()
+    End Sub
+
+    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles txtsearch.TextChanged
+        If Trim(txtsearch.Text) <> "" Then
+            dataadapter = New MySqlDataAdapter("select * from accounts where" & ComboBox2.Text & " Like '%" & Trim$(txtsearch.Text) & "%'", conn)
+            datasetcount.Clear()
+            dataadapter.Fill(datasetcount, "accounts")
+
+            DataGridView1.DataSource = datasetcount
+            DataGridView1.DataMember = "accounts"
+            DataGridView1.Refresh()
+        End If
+    End Sub
+
+    Private Sub DeleteUsersToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeleteUsersToolStripMenuItem.Click
+        If txtID.Text = "" Then
+            MsgBox("First select the account to delete")
+            Exit Sub
+        End If
+        If MsgBox("Are you sure you want to delete?", MsgBoxStyle.OkCancel, "") = MsgBoxResult.Cancel Then
+            Exit Sub
+        End If
+        Try
+            Dim IDM As Integer = Val(txtID.Text.Trim)
+            If conn.State = ConnectionState.Closed Then
+                conn.Open()
+            End If
+            Dim cmd1 As New MySqlCommand
+            cmd1.Connection = conn
+            cmd1.CommandType = CommandType.Text
+            cmd1.CommandText = "Delete from accounts where id = " & IDM & ""
+
+            cmd1.ExecuteScalar()
+            conn.Close()
+            MsgBox("successfully deleted the accounts!!!")
+            loadaccounts()
+
+        Catch ex As Exception
+            MsgBox("Error !: " + ex.Message)
+        End Try
+    End Sub
+
+    Private Sub EditUsersToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EditUsersToolStripMenuItem.Click
+        If txtID.Text = "" Then
+            MsgBox("Choose the account to edit!")
+            Exit Sub
+        Else
+            FormEdituser.ShowDialog()
+        End If
+    End Sub
+
+    Private Sub MenuStrip1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles MenuStrip1.ItemClicked
+
+    End Sub
+End Class

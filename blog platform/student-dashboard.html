@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+        }
+        .sidebar {
+            width: 220px;
+            background: #2d3e50;
+            color: #fff;
+            position: fixed;
+            height: 100vh;
+            padding-top: 30px;
+        }
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.5em;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 15px 30px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .sidebar ul li:hover, .sidebar ul li.active {
+            background: #1a2533;
+        }
+        .main-content {
+            margin-left: 240px;
+            padding: 30px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .profile {
+            display: flex;
+            align-items: center;
+        }
+        .profile img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        .profile-details {
+            line-height: 1.2;
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin-top: 30px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(44,62,80,0.08);
+            padding: 24px;
+        }
+        .card h3 {
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+        .progress-bar {
+            background: #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 16px;
+            margin-top: 10px;
+        }
+        .progress {
+            background: #4caf50;
+            height: 100%;
+            width: 75%;
+        }
+        .table-section {
+            margin-top: 40px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+        }
+        th {
+            background: #f0f2f5;
+        }
+        tr:nth-child(even) {
+            background: #f9fafb;
+        }
+        @media (max-width: 800px) {
+            .sidebar {
+                width: 60px;
+                padding-top: 10px;
+            }
+            .sidebar h2, .sidebar ul li {
+                font-size: 0.9em;
+                padding: 10px 10px;
+            }
+            .main-content {
+                margin-left: 70px;
+                padding: 15px;
+            }
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Dashboard</h2>
+        <ul>
+            <li class="active">Home</li>
+            <li>Courses</li>
+            <li>Assignments</li>
+            <li>Grades</li>
+            <li>Attendance</li>
+            <li>Messages</li>
+            <li>Settings</li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <h1>Welcome, John Doe</h1>
+            <div class="profile">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile Picture">
+                <div class="profile-details">
+                    <strong>John Doe</strong><br>
+                    <span>Grade 10 | Science Stream</span>
+                </div>
+            </div>
+        </div>
+        <div class="cards">
+            <div class="card">
+                <h3>Overall Progress</h3>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 75%;"></div>
+                </div>
+                <p>75% completed</p>
+            </div>
+            <div class="card">
+                <h3>Upcoming Assignments</h3>
+                <ul>
+                    <li>Math Homework - Due: 2024-06-10</li>
+                    <li>Biology Project - Due: 2024-06-12</li>
+                    <li>English Essay - Due: 2024-06-15</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Recent Grades</h3>
+                <ul>
+                    <li>Math: <strong>A</strong></li>
+                    <li>Biology: <strong>B+</strong></li>
+                    <li>English: <strong>A-</strong></li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Attendance</h3>
+                <p>Present: <strong>95%</strong></p>
+                <p>Absent: <strong>5%</strong></p>
+            </div>
+        </div>
+        <div class="table-section">
+            <h2>Course Overview</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course</th>
+                        <th>Instructor</th>
+                        <th>Status</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Mathematics</td>
+                        <td>Mrs. Smith</td>
+                        <td>Ongoing</td>
+                        <td>A</td>
+                    </tr>
+                    <tr>
+                        <td>Biology</td>
+                        <td>Mr. Lee</td>
+                        <td>Ongoing</td>
+                        <td>B+</td>
+                    </tr>
+                    <tr>
+                        <td>English</td>
+                        <td>Ms. Brown</td>
+                        <td>Completed</td>
+                        <td>A-</td>
+                    </tr>
+                    <tr>
+                        <td>History</td>
+                        <td>Mr. Carter</td>
+                        <td>Ongoing</td>
+                        <td>B</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

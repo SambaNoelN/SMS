@@ -1,0 +1,36 @@
+<?php
+// Database configuration
+$servername = "your_servername";
+$username = "your_username";
+$password = "your_password";
+$dbname = "your_database_name";
+
+// Establishing connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Login credentials
+$username = $_POST['username']; // Assuming you're retrieving the username from a form
+$password = $_POST['password']; // Assuming you're retrieving the password from a form
+
+// SQL query to retrieve login data
+$sql = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+$result = $conn->query($sql);
+
+// Check if a matching record is found
+if ($result->num_rows > 0) {
+    // Login successful
+    // Perform the desired actions, such as setting session variables or redirecting to a new page
+    echo "Login successful!";
+} else {
+    // Login failed
+    echo "Invalid username or password!";
+}
+
+// Close the database connection
+$conn->close();
+?>

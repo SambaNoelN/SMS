@@ -1,0 +1,133 @@
+<?php
+
+//session_start();
+
+$servername = "localhost:3306";
+$username = "root";
+$password = "";
+$dbname = "wep_project";
+
+if(isset($_POST['login']) and isset($_POST['pwd']))
+{
+	$conn = new mysqli($servername, $username, $password, $dbname);
+
+	if(!$conn){
+		die("Connection failed: ". mysqli_connect_error());
+	}
+
+	$login = $_POST['login'];
+	$pwd =  $_POST['pwd'];
+
+   $query = "SELECT User,Pass,level FROM user  WHERE User = '".$login."'  AND Pass = '".$pwd."'";
+
+   $result = mysqli_query($conn,$query);
+
+   if(mysqli_num_rows($result)>0){
+   	$row = mysqli_fetch_assoc($result);
+
+   	$userlevel = $row["level"];
+
+   	echo "user name is <B>". $row["User"] ."</B><br/>";
+   	echo "Password is <B>". $row["Pass"] ."</B><br/>";
+   	echo "user level is <B>". $row["level"] ."</B><br/>";
+
+
+
+   	if($userlevel == '1') {
+		header('Location: deletestudent.php');
+		exit();
+		}
+
+   }
+   else
+	{
+
+		$bad = '<span class="bad_login"><B>User Name or Password Incorrect</B></span>';
+	}
+
+
+	/*
+	if(mysql_num_rows($query) > 0)
+	{
+	    $result = mysql_fetch_array($query);
+
+		$userlevel = $result[2];
+		setcookie('login', $login, time()+3600);
+		setcookie('pwd', $pwd, time()+3600);
+
+		$_SESSION['login'] = $login;
+		$_SESSION['pwd'] = $pwd;
+
+		if($userlevel == 'admin') {
+		header('Location: Listproperty.php');
+		exit();
+		}
+
+		else if($userlevel == 'Realtor') {
+		header('Location: Realtor.php');
+		exit();
+		}
+
+		else if($userlevel == 'Client'){
+		header("Location: Client.php");
+		exit();
+		}
+
+
+	}
+	else # Sinon
+	{
+
+		$bad = '<span class="bad_login">User Name or Password Incorrect</span>'; # Login ou Mot de passe incorrect
+	}*/
+
+	//mysql_close($cnx); # Déconnexion
+}
+
+//mysqli_close($conn); # Déconnexion
+
+?>
+
+<!DOCTYPE>
+<html>
+<head>
+<title>Login</title>
+</head>
+<body>
+
+<section>
+
+<article>
+
+<form action="" method="post">
+<fieldset><legend style="color:#0000FF"><strong>Enter your Username and Password</strong></legend>
+
+<?php if(isset($bad)) echo $bad; ?>
+
+<p align="center">
+<img src="picture/login.gif" alt=""/>
+</p>
+<p align="center">
+                   	  <label for="id"><strong>User Name</strong></label>
+                      <input id="login" name="login" type="text" required />
+                      <br/>
+                      <label for="mdp"><strong>Password &nbsp;</strong></label>
+                      <input id="pwd" name="pwd" type="password" required /><br/>
+
+
+					   <h7 align="center"><a href="registration.php" id="" >Create User Account</a><br/></h7>
+
+                     <p><p align="center">
+					  <input type="submit" value="Login"></p>
+                    </form></p></p>
+
+
+</article>
+
+
+</section>
+
+</body>
+</body>
+</html>
+<!-- html code end-->

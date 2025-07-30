@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Platform</title>
+    <style>
+        body{
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contacts&nbsp;</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h1>Blog Posts</h1>
+            <ul id="post-list">
+
+
+            </ul>
+        </section>
+        <section>
+            <h1>Create Post</h1>
+            <form id="create-post-form">
+                <input type="text" id="title" placeholder="Title">
+                <textarea id="content" placeholder="content"></textarea>
+                <button type="submit">Create post</button>
+            </form>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>

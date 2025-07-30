@@ -1,0 +1,90 @@
+Imports MySql.Data.MySqlClient
+Public Class FormAdduser
+    Dim constr As String = "server=localhost; port=3306; Database=loginpat; Uid=root; Pwd=;"
+    Dim conn As New MySqlConnection(constr)
+
+    Dim datasuser As New DataSet
+    Dim sqlusers As String = "select * from accounts"
+    Private Sub FormAdduser_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        cmdrole.SelectedIndex = 1
+    End Sub
+    Public Sub addusers()
+        Try
+            If conn.State = ConnectionState.Closed Then
+                conn.Open()
+
+            End If
+            Dim cmd As New MySqlCommand
+            cmd.Connection = conn
+            cmd.CommandType = CommandType.Text
+            cmd.CommandText = "Insert into accounts(name,username,password,manage_accounts,manage_example1,manage_example2,admin)values(@name,@username,@password,@manage_accounts,@manage_example1,@manage_example2,@admin)"
+
+            cmd.Parameters.AddWithValue("@name", txtuser.Text.Trim)
+            cmd.Parameters.AddWithValue("@username", txtname.Text.Trim)
+            cmd.Parameters.AddWithValue("@password", txtpass.Text.Trim)
+            cmd.Parameters.AddWithValue("@manage_accounts", chbusers.Checked)
+            cmd.Parameters.AddWithValue("@manage_example1", chbex1.Checked)
+            cmd.Parameters.AddWithValue("@manage_example2", chbex2.Checked)
+            cmd.Parameters.AddWithValue("@admin", chbadmin.Checked)
+
+            cmd.ExecuteScalar()
+            conn.Close()
+
+            Formusers.loadaccounts()
+            MsgBox("User Added Successfully")
+            lbluser.Text = ""
+            txtuser.Text = ""
+            txtname.Text = ""
+            txtpass.Text = ""
+            chbusers.Checked = False
+            chbex1.Checked = False
+            chbex2.Checked = False
+            chbadmin.Checked = False
+        Catch ex As Exception
+            MsgBox("Error !: " + ex.Message)
+
+        End Try
+    End Sub
+    Public Sub checkaccounts()
+        If conn.State = ConnectionState.Closed Then
+            conn.Open()
+
+        End If
+        datasuser.Clear()
+        sqlusers = "select * from accounts where username like '%" & txtname.Text & "%' "
+
+        Dim dataadapteraccounts As New MySqlDataAdapter(sqlusers, conn)
+        dataadapteraccounts.Fill(datasuser, "accounts")
+
+        conn.Close()
+
+        lbluser.DataBindings.Clear()
+        lbluser.DataBindings.Add("Text", datasuser, "accounts.username")
+
+        If lbluser.Text = "" Then
+            addusers()
+        Else
+            MsgBox("This username exists, please enter a unique username!")
+            txtuser.Focus()
+            Exit Sub
+        End If
+    End Sub
+
+    Private Sub cmdrole_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmdrole.SelectedIndexChanged
+        If cmdrole.Text = "Admin" Then
+            chbadmin.Checked = True
+            chbusers.Checked = True
+            chbex1.Checked = True
+            chbex2.Checked = True
+        ElseIf cmdrole.Text = "User" Then
+            chbadmin.Checked = False
+            chbusers.Checked = False
+            chbex1.Checked = False
+            chbex2.Checked = False
+        End If
+    End Sub
+
+    Private Sub btnadd_Click(sender As Object, e As EventArgs) Handles btnadd.Click
+        checkaccounts()
+    End Sub
+End Class

@@ -1,0 +1,40 @@
+Dim xlapp As Excel.Application
+        Dim xlworkbook As Excel.Workbook
+        Dim xlworksheet As Excel.Worksheet
+        Dim misvalue As Object = System.Reflection.Missing.Value
+        Dim i As Integer
+        Dim j As Integer
+
+        xlapp = New Excel.Application
+        xlworkbook = xlapp.Workbooks.Add(misvalue)
+        xlworksheet = xlworkbook.Sheets("Sheet1")
+
+        For i = 0 To DataGridView1.RowCount - 2
+            For j = 0 To DataGridView1.ColumnCount - 1
+                xlworksheet.Cells(i + 1, j + 1) = _
+                    DataGridView1(j, i).Value.ToString()
+            Next
+        Next
+        xlworksheet.SaveAs("D:\exporteddata.xlsx")
+        xlworkbook.Close()
+        xlapp.Quit()
+
+        releaseObject(xlapp)
+        releaseObject(xlworkbook)
+        releaseObject(xlworksheet)
+
+        MessageBox.Show("You can find the file in drive D:\exporteddata.xlsx")
+    End Sub
+    Private Sub releaseObject(ByVal ob As Object)
+        Try
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(ob)
+            ob = Nothing
+
+
+
+        Catch ex As Exception
+            ob = Nothing
+        Finally
+            GC.Collect()
+        End Try
+    End Sub
