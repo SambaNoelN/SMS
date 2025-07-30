@@ -7,7 +7,7 @@
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
-DROP DATABASE users;
+DROP DATABASE sms;
 
 CREATE DATABASE sms;
 
